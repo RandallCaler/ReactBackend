@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.get('/users', (req, res) => {
+/*app.get('/users', (req, res) => {
     const name = req.query.name;
     if (name != undefined){
         let result = findUserByName(name);
@@ -20,7 +20,7 @@ app.get('/users', (req, res) => {
     else{
         res.send(users);
     }
-});
+});*/
 
 const findUserByName = (name) => { 
     return users['users_list'].filter( (user) => user['name'] === name); 
@@ -28,7 +28,7 @@ const findUserByName = (name) => {
 
 app.get('/users', (req, res) => {
     const name = req.query.name;
-    const job = req.query.name;
+    const job = req.query.job;
     if (name != undefined){
         let result = findUserByName(name);
         result = {users_list: result};
@@ -67,6 +67,23 @@ function findUserById(id) {
     //return users['users_list'].filter( (user) => user['id'] === id);
 }
 
+function idGenerator() {
+    const index1=0;
+    const index2=0;
+    const id="";
+    const rand = new Random();
+    const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","Y","Z"];
+    const numbers = [0,1,2,3,4,5,6,7,8,9];
+    while(index1<3) {
+        id=id+letters[rand.nextInt(26)];
+        index1++;
+    }
+    while(index2<3) {
+        id=id+numbers[rand.nextInt(10)];
+    }
+    return id;
+}
+
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id'];
     let result = findUserById(id);
@@ -82,8 +99,10 @@ app.delete('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    const id = idGenerator();
+    req.query.id=id;
     addUser(userToAdd);
-    res.status(201).send("Succes");
+    res.status(201).send("Success");
 });
 
 function addUser(user){
