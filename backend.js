@@ -70,16 +70,15 @@ function findUserById(id) {
 function idGenerator() {
     const index1=0;
     const index2=0;
-    const id="";
-    const rand = new Random();
-    const letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","Y","Z"];
-    const numbers = [0,1,2,3,4,5,6,7,8,9];
+    var id="";
+    const letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","y","z"];
+    const numbers = ["0","1","2","3","4","5","6","7","8","9"];
     while(index1<3) {
-        id=id+letters[rand.nextInt(26)];
+        id+=letters[Math.floor(Math.random()*26)];
         index1++;
     }
     while(index2<3) {
-        id=id+numbers[rand.nextInt(10)];
+        id+=numbers[Math.floor(Math.random()*10)];
     }
     return id;
 }
@@ -99,10 +98,12 @@ app.delete('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    const id = idGenerator();
-    req.query.id=id;
-    addUser(userToAdd);
-    res.status(201).send("Success");
+    const record=rec.body;
+    record['id']=idGenerator;
+    if(addUser(userToAdd)===undefined)
+        res.status(204).send("Failure");
+    else
+        res.status(201).send("Success");
 });
 
 function addUser(user){
