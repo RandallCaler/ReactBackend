@@ -60,8 +60,8 @@ function findUserById(id) {
 }
 
 function idGenerator() {
-    const index1=0;
-    const index2=0;
+    var index1=0;
+    var index2=0;
     var id="";
     const letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","y","z"];
     const numbers = ["0","1","2","3","4","5","6","7","8","9"];
@@ -71,6 +71,7 @@ function idGenerator() {
     }
     while(index2<3) {
         id+=numbers[Math.floor(Math.random()*10)];
+        index2++;
     }
     return id;
 }
@@ -90,12 +91,15 @@ app.delete('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
     //const userToAdd = req.body;
-    const record=rec.body;
-    record['id']=idGenerator;
-    if(addUser(record)===undefined)
-        res.status(204).send("Failure");
-    else
-        res.status(201).send(record);
+    const record=req.body;
+    record['id']=idGenerator();
+    /*if(addUser(record)===undefined){
+        console.log("test");
+        res.status(204).send("Failure");}
+    else {console.log("testing");
+        res.status(201).send(record);}*/
+    addUser(record);
+    res.status(201).send(record);
 
 });
 
