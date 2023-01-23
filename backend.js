@@ -97,13 +97,14 @@ app.delete('/users/:id', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-    const userToAdd = req.body;
+    //const userToAdd = req.body;
     const record=rec.body;
     record['id']=idGenerator;
-    if(addUser(userToAdd)===undefined)
+    if(addUser(record)===undefined)
         res.status(204).send("Failure");
     else
-        res.status(201).send("Success");
+        res.status(201).send(record);
+
 });
 
 function addUser(user){
